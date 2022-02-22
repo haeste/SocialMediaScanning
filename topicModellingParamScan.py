@@ -75,5 +75,5 @@ for numtopics in range(4,25):
     print('Average topic coherence: %.4f.' % avg_topic_coherence)
     coherence.append(avg_topic_coherence)
 
-with open(‘./ldamodels.pkl’, ‘wb’) as f:
+with open('./ldamodels.pkl', 'wb') as f:
     pickle.dump(ldamodels, f)
