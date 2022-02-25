@@ -57,7 +57,7 @@ for numtopics in range(2,45):
     for r_s in range(1,10):
         lda_model = LdaMulticore(corpus=corpus,
                                  id2word=cp,
-                                 random_state=99,
+                                 random_state=r_s,
                                  num_topics=numtopics,
                                  passes=20,
                                  chunksize=1000,
