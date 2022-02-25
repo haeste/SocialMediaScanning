@@ -53,6 +53,7 @@ corpus = [cp.doc2bow(line) for line in posts_processed if line not in restricted
 ldamodels = []
 coherence = []
 for numtopics in range(2,45):
+    ldamods = []
     for r_s in range(1,10):
         lda_model = LdaMulticore(corpus=corpus,
                                  id2word=cp,
@@ -66,15 +67,14 @@ for numtopics in range(2,45):
                                  eval_every=10,
                                  iterations=1000,
                                  gamma_threshold=0.001,
-                                 per_word_topics=True)
-
-    #%%
-    
-    top_topics = lda_model.top_topics(corpus) #, num_words=20)
-    ldamodels.append(lda_model)
-    avg_topic_coherence = sum([t[1] for t in top_topics]) / numtopics
-    print('Average topic coherence: %.4f.' % avg_topic_coherence)
-    coherence.append(avg_topic_coherence)
+                                 per_word_topics=True)    
+        top_topics = lda_model.top_topics(corpus) #, num_words=20)
+        ldamods.append(lda_model)
+        avg_topic_coherence = sum([t[1] for t in top_topics]) / numtopics
+        print('Average topic coherence: %.4f.' % avg_topic_coherence)
+        coherence.append(avg_topic_coherence)
+    ldamodels.append(ldamods)
 
 with open('./ldamodels.pkl', 'wb') as f:
     pickle.dump(ldamodels, f)
+
