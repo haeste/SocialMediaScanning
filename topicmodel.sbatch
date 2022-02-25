@@ -3,7 +3,7 @@
 #SBATCH --job-name=actigraph
 #SBATCH --output=actigraph.out
 #SBATCH --error=actigraph.err
-#SBATCH --time=02:00:00
+#SBATCH --time=12:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=12
 #SBATCH --mail-type=ALL
