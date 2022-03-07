@@ -34,11 +34,14 @@ soup = BeautifulSoup(MnetParenting, 'html.parser')
 first = re.compile("\\-*\\d+\\.*\\d*")
 # for each page of posts
 firstpage, lastpage = first.findall(soup.find_all(name='li', attrs={'class':'first'})[0].text)
+
+#382 + 463
 posts = []
 post_titles = []
 post_dates = []
-#382
-for p in tqdm(range(int(firstpage), int(lastpage))):
+#%%
+for p in tqdm(range(235, int(lastpage)+1)):
+
     #print('Scraping page ' + str(p) + ' of ' + str(lastpage))
     pageurl = 'https://www.mumsnet.com/Talk/parenting?pg=' + str(p)
     #print('loading: ' + pageurl)
@@ -49,7 +52,7 @@ for p in tqdm(range(int(firstpage), int(lastpage))):
 
     currentSoup = BeautifulSoup(currenthtml, 'html.parser')
     
-    currentTable = BeautifulSoup(str(soup.find_all(name='table', attrs={'id':'threads'})[0]), 'html.parser')
+    currentTable = BeautifulSoup(str(currentSoup.find_all(name='table', attrs={'id':'threads'})[0]), 'html.parser')
     currentLinks = currentTable.find_all('a')
     for l in currentLinks:
         if len(l.attrs) == 1 and l.attrs['href'].startswith('parenting'):
@@ -57,7 +60,9 @@ for p in tqdm(range(int(firstpage), int(lastpage))):
             postloc = 'https://www.mumsnet.com/Talk/' + l['href']
             
             trying = True
+            count = 0
             while(trying):
+                
                 try:
                     curr_post, post_time = extractFromCurrentPost(postloc)   
                     posts.append(curr_post)
@@ -68,6 +73,9 @@ for p in tqdm(range(int(firstpage), int(lastpage))):
                     trying = True
                     print('\nproblems scraping post: ' + postloc)
                     time.sleep(10)
-        
+                    count = count +1
+                    if count==10:
+                        trying = False
+    
 posts_df = pd.DataFrame({'titles':post_titles, 'date':post_dates, 'post':posts})
-posts_df.to_feather('./mumsnetparenting.feather')
+posts_df.to_feather('H:/redditProject/mumsnetparenting.feather')
