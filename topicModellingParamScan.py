@@ -23,7 +23,17 @@ logging.basicConfig(filename='./gensim.log',
                     format="%(asctime)s:%(levelname)s:%(message)s",
                     level=logging.INFO)
                            
+                           
 data = pd.read_feather('./reddit_posts.feather')
+mnet = pd.read_hdf('./mumsnetparenting.hdf')
+mnet['title'] = mnet.titles
+mnet['selftext'] = mnet.post
+mnet = mnet.drop(columns=['titles', 'post'])
+mnet['source'] = 'mumsnet'
+data = data.drop(columns=['num_comments', 'score'])
+data['source'] = 'reddit_Parenting'
+
+data = data.append(mnet)
 posts = data.title + ' ' + data.selftext
 
 #%%
