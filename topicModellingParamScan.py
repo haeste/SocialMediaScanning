@@ -62,9 +62,9 @@ corpus = [cp.doc2bow(line) for line in posts_processed if line not in restricted
 #%%
 ldamodels = []
 coherence = []
-for numtopics in range(2,45):
+for numtopics in range(10,15):
     ldamods = []
-    for r_s in range(1,10):
+    for r_s in range(1,2):
         lda_model = LdaMulticore(corpus=corpus,
                                  id2word=cp,
                                  random_state=r_s,
