@@ -3,7 +3,7 @@
 #SBATCH --job-name=topicModel
 #SBATCH --output=topicModel.out
 #SBATCH --error=topicModel.err
-#SBATCH --time=12:00:00
+#SBATCH --time=48:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=22
 #SBATCH --mail-type=ALL
