@@ -39,8 +39,8 @@ posts = data.title + ' ' + data.selftext
 #%%
 stop_words = stopwords.words('english') + ['think', 'thing', 'said', 'want', 'know', 'toddler','kid',
                                            'babi','old','year','utf','keyword','ref','encod', 'month', 
-                                           'com', 'edu', 'subject', 'lines', 'organization', 'would', 'article', 
-                                           'could', 'amp', 'www', 'com', 'amazon', 'http']
+                                           'com', 'edu', 'subject', 'lines', 'organization', 'article', 
+                                           'amp', 'www', 'com', 'amazon', 'http', 'message', 'withdrawn', 'poster', 'request']
 posts_preprocessed = gensim.parsing.preprocessing.preprocess_documents(posts)
 posts_processed = []
 for post in posts_preprocessed:
@@ -62,9 +62,9 @@ corpus = [cp.doc2bow(line) for line in posts_processed if line not in restricted
 #%%
 ldamodels = []
 coherence = []
-for numtopics in range(10,15):
+for numtopics in range(3,35):
     ldamods = []
-    for r_s in range(1,2):
+    for r_s in range(1,10):
         lda_model = LdaMulticore(corpus=corpus,
                                  id2word=cp,
                                  random_state=r_s,
@@ -84,6 +84,7 @@ for numtopics in range(10,15):
         print('Average topic coherence: %.4f.' % avg_topic_coherence)
         coherence.append(avg_topic_coherence)
     ldamodels.append(ldamods)
+
 
 with open('./ldamodels.pkl', 'wb') as f:
     pickle.dump(ldamodels, f)
