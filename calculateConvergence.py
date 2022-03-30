@@ -24,3 +24,5 @@ for lda in ldamodels:
 allcoh = np.array(allcoh)
 
 
+with open('convergence.npy', 'wb') as f:
+    np.save(f, allcoh)
