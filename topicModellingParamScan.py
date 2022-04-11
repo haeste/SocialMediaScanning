@@ -37,14 +37,19 @@ data = data.append(mnet)
 posts = data.title + ' ' + data.selftext
 
 #%%
+posts_cleaned = []
+for p in posts:
+    if ('PENIS PENIS' not in p) and ('[removed]' not in p):
+      posts_cleaned.append(p)  
 stop_words = stopwords.words('english') + ['think', 'thing', 'said', 'want', 'know', 'toddler','kid',
                                            'babi','old','year','utf','keyword','ref','encod', 'month', 
                                            'com', 'edu', 'subject', 'lines', 'organization', 'article', 
-                                           'amp', 'www', 'com', 'amazon', 'http', 'message', 'withdrawn', 'poster', 'request']
+                                           'amp', 'www', 'com', 'amazon', 'http', 'message', 'withdrawn',
+                                           'poster', 'request', 'removed','daughter','she\'s', 'he\'s']
 posts_preprocessed = gensim.parsing.preprocessing.preprocess_documents(posts)
 posts_processed = []
 for post in posts_preprocessed:
-    post = [p for p in post if p not in stop_words and len(p)>3]
+    post = [p for p in post if p not in stop_words and (len(p)>3)]
     posts_processed.append(post)
 
 bigram = Phrases(posts_processed, min_count=20)
