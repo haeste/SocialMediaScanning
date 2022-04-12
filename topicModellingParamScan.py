@@ -40,13 +40,13 @@ posts = data.title + ' ' + data.selftext
 posts_cleaned = []
 for p in posts:
     if ('PENIS PENIS' not in p) and ('[removed]' not in p):
-      posts_cleaned.append(p)  
+      posts_cleaned.append(p.replace('’', '\''))  
 stop_words = stopwords.words('english') + ['think', 'thing', 'said', 'want', 'know', 'toddler','kid',
                                            'babi','old','year','utf','keyword','ref','encod', 'month', 
                                            'com', 'edu', 'subject', 'lines', 'organization', 'article', 
                                            'amp', 'www', 'com', 'amazon', 'http', 'message', 'withdrawn',
                                            'poster', 'request', 'removed','daughter','she\'s', 'he\'s']
-posts_preprocessed = gensim.parsing.preprocessing.preprocess_documents(posts)
+posts_preprocessed = gensim.parsing.preprocessing.preprocess_documents(posts_cleaned)
 posts_processed = []
 for post in posts_preprocessed:
     post = [p for p in post if p not in stop_words and (len(p)>3)]
