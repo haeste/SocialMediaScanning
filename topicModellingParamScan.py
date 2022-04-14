@@ -18,6 +18,19 @@ from gensim.models import Phrases
 import re
 import logging
 import pickle
+import requests
+import json
+
+def britishise(string,american_to_british):
+
+    for american_spelling, british_spelling in american_to_british.items():
+        string = string.replace(american_spelling, british_spelling)
+  
+    return string
+
+with open("./american_spellings.json", 'r') as url:
+    american_to_british = json.load(url)   
+#%%
 lemmatizer = WordNetLemmatizer()
 logging.basicConfig(filename='./gensim.log',
                     format="%(asctime)s:%(levelname)s:%(message)s",
@@ -40,7 +53,11 @@ posts = data.title + ' ' + data.selftext
 posts_cleaned = []
 for p in posts:
     if ('PENIS PENIS' not in p) and ('[removed]' not in p):
-      posts_cleaned.append(p.replace('’', '\''))  
+        pi = britishise(p, american_to_british)
+        pi = pi.replace('diaper', 'nappy')
+        pi = pi.replace('diapers', 'nappies')
+        posts_cleaned.append(pi.replace('’', '\''))
+        
 stop_words = stopwords.words('english') + ['think', 'thing', 'said', 'want', 'know', 'toddler','kid',
                                            'babi','old','year','utf','keyword','ref','encod', 'month', 
                                            'com', 'edu', 'subject', 'lines', 'organization', 'article', 
