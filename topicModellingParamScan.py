@@ -18,7 +18,6 @@ from gensim.models import Phrases
 import re
 import logging
 import pickle
-import requests
 import json
 
 def britishise(string,american_to_british):
