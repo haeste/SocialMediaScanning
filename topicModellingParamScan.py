@@ -51,7 +51,7 @@ posts = data.title + ' ' + data.selftext
 #%%
 posts_cleaned = []
 for p in posts:
-    if ('PENIS PENIS' not in p) and ('[removed]' not in p):
+    if ('PENIS PENIS' not in p) and ('[removed]' not in p) and ('Message withdrawn at poster\'s request.' not in p):
         pi = britishise(p, american_to_british)
         pi = pi.replace('diaper', 'nappy')
         pi = pi.replace('diapers', 'nappies')
@@ -61,7 +61,8 @@ stop_words = stopwords.words('english') + ['think', 'thing', 'said', 'want', 'kn
                                            'babi','old','year','utf','keyword','ref','encod', 'month', 
                                            'com', 'edu', 'subject', 'lines', 'organization', 'article', 
                                            'amp', 'www', 'com', 'amazon', 'http', 'message', 'withdrawn',
-                                           'poster', 'request', 'removed','daughter','she\'s', 'he\'s']
+                                           'poster', 'request', 'removed','daughter','she\'s', 'he\'s',
+                                           'child', 'children']
 posts_preprocessed = gensim.parsing.preprocessing.preprocess_documents(posts_cleaned)
 posts_processed = []
 for post in posts_preprocessed:
@@ -75,6 +76,9 @@ for idx in range(len(posts_processed)):
         if '_' in token:
             # Token is a bigram, add to document.
             posts_processed[idx].append(token)
+
+with open('./texts.pkl', 'wb') as f:
+    pickle.dump(posts_processed, f)
 #%%
 cp = gensim.corpora.Dictionary(posts_processed)
 cp.filter_extremes(no_below=20, no_above=0.5)
