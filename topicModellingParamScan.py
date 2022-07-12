@@ -19,7 +19,57 @@ import re
 import logging
 import pickle
 import json
+from docx import Document
+from docx.shared import Cm, Pt
+def saveTable(univariablemodels, multivariablemodel , sig=0.05):
+    word_document = Document()
+    table = word_document.add_table(0, 0)
+    table.style = 'TableGrid'
+    first_column_width = 20
+    column_with = 8
+    table.add_column(Cm(first_column_width))
+    table.add_column(Cm(column_with))
+    table.add_column(Cm(column_with))
+    table.add_column(Cm(column_with))
+    table.add_column(Cm(column_with))
+    table.add_column(Cm(column_with))
+    table.add_column(Cm(column_with))
+    first_row = table.add_row()
+    first_row.cells[1].text = 'Univariable Regression (n=228)'
+    first_row.cells[2].text = 'Multiple Regression (n=228) '
+    second_row = table.add_row()
+    second_row.cells[0].text = 'Independent Variable'
+    second_row.cells[1].text = 'Coefficient (standardised) [95% confidence interval]'
+    second_row.cells[2].text = 'p-value'
+    second_row.cells[3].text = '$R^2$'
+    second_row.cells[4].text = 'p-value'
+    second_row.cells[5].text = 'p-value (adj)'
+    second_row.cells[6].text = 'f'
 
+
+    for w in range(1,6):
+        curr_wave = df[(df.wave==w) & (df.pvals_adj<=sig)]
+        next_row = table.add_row()
+        next_row.cells[0].text = 'Wave ' + str(w)
+        print(curr_wave)
+        for index, row in curr_wave.iterrows():
+            next_row = table.add_row()
+            next_row.cells[0].text = data_dict[row['value']]
+            next_row.cells[1].text = str(row['medians_r1'])
+            next_row.cells[2].text = str(row['medians_r2'])
+            next_row.cells[3].text = str(row['medians_w'])
+            next_row.cells[4].text = str(round(row['pvals'],3))
+            next_row.cells[5].text = str(round(row['pvals_adj'],3))
+            next_row.cells[6].text = str(round(row['uvals'],3))
+    margin = 1
+    sections = word_document.sections
+    for section in sections:
+        section.top_margin = Cm(margin)
+        section.bottom_margin = Cm(margin)
+        section.left_margin = Cm(margin)
+        section.right_margin = Cm(margin)
+
+    word_document.save(fname + '.docx')
 def britishise(string,american_to_british):
 
     for american_spelling, british_spelling in american_to_british.items():
