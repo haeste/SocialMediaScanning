@@ -14,13 +14,13 @@ from gensim.models import Phrases
 
 
 #%% Loading in the tweets
-filenames = ['C:/Users/nct76/twarc_testing/tweets.csv', 'C:/Users/nct76/twarc_testing/tweets.csv']
+filenames = 'C:/Users/nct76/twarc_testing/tweets.csv'
 # Load in the csv file created by twarc
-tweets = pd.DataFrame()
-for f in filenames:
-    tweet = pd.read_csv(f)
-    tweets = tweets.append(tweet)
+
+tweet = pd.read_excel(f)
+
 # Store only the text in a list
+
 posts = tweets.text
 
 
