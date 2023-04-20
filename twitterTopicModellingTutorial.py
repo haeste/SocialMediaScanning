@@ -2,7 +2,7 @@
 """
 Created on Wed Feb 16 12:11:03 2022
 
-@author: nct76
+@author: Christopher Thornton
 """
 
 # import the required libraries
@@ -14,10 +14,10 @@ from gensim.models import Phrases
 
 
 #%% Loading in the tweets
-filenames = 'C:/Users/nct76/twarc_testing/tweets.csv'
+filename = 'C:/Users/nct76/twarc_testing/tweets.csv'
 # Load in the csv file created by twarc
 
-tweet = pd.read_excel(f)
+tweets = pd.read_csv(filename)
 
 # Store only the text in a list
 

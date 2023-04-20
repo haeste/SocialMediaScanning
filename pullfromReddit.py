@@ -2,7 +2,7 @@
 """
 Created on Thu Feb 10 15:33:52 2022
 
-@author: nct76
+@author: Christopher Thornton
 """
 
 import requests
@@ -45,6 +45,8 @@ def getFromJSONList(submissionlist, fields):
 # specify the URL to the api for the subreddit of interest - see pushshift for details
 api_url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=Parenting'
 api_url = api_url + '&size=100'
+# specify the save location for the posts
+save_location = './reddit_posts.feather'
 # specify date range 
 start_date = datetime.date(2010,1,1)
 end_date = datetime.date(2022,2,1)
@@ -83,6 +85,6 @@ while day <= end_date:
     day = day + datetime.timedelta(1)
 
 all_df = all_df.reset_index().drop(columns='index')
-all_df.to_feather('./reddit_posts.feather')
+all_df.to_feather(save_location)
 
 #%%
